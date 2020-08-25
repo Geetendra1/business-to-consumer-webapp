@@ -42,4 +42,12 @@ const isAdmin = (req, res, next) => {
   return res.status(401).send({ message: 'Admin Token is not valid.' });
 };
 
-export { getToken, isAdmin, isAuth};
+const isConfirmed = (req, res, next) => {
+  console.log(req.user);
+  if (req.user.confirmed) {
+    return next();
+  }
+  return res.status(401).send({ message: 'Admin Token is not valid.' });
+};
+
+export { getToken, isAdmin, isAuth, isConfirmed};
