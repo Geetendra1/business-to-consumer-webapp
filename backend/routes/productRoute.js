@@ -1,6 +1,6 @@
 import express from 'express';
 import Product from '../modals/productModal';
-import { isAuth, isAdmin } from '../util';
+import { isAuth, isAdmin , isConfirmed } from '../util';
 const cookieParser = require('cookie-parser')
 const router = express.Router();
 
@@ -77,7 +77,7 @@ router.get('/:id', async (req, res) => {
 
 
 // -----------------Update PRoduct(ADmin)----------------//
-router.put('/:id', isAuth, isAdmin, async (req, res) => {
+router.put('/:id', isAuth, isAdmin, isConfirmed, async (req, res) => {
   const productId = req.params.id;
   const product = await Product.findById(productId);
   if (product) {
@@ -100,7 +100,7 @@ router.put('/:id', isAuth, isAdmin, async (req, res) => {
 
 
 // -----------------------Delete-Product(Admin)--------------//
-router.delete('/:id', isAuth, isAdmin, async (req, res) => {
+router.delete('/:id', isAuth, isAdmin, isConfirmed, async (req, res) => {
   const deletedProduct = await Product.findById(req.params.id);
   if (deletedProduct) {
     await deletedProduct.remove();
@@ -112,7 +112,7 @@ router.delete('/:id', isAuth, isAdmin, async (req, res) => {
 
 
 // ----------------------Add PRoduct(Admin)-------------------//
-router.post('/', isAuth, isAdmin, async (req, res) => {
+router.post('/', isAuth, isAdmin, isConfirmed, async (req, res) => {
     const userInfo = JSON.parse(req.cookies['userInfo'])
     const userName = userInfo.name
     
